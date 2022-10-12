@@ -1,0 +1,63 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Registros Experiencia Laboral</h1>
+<hr>
+<div class="card">
+  <div class="card-body">
+    <form method="POST">{% csrf_token %}
+        <div class="row g-2">
+        <div class="col-md">
+        <div class="form-floating">
+            {{form.empresa}}
+            <label for="txtCapacitacion">Empresa</label>
+        </div>
+        </div>
+        <div class="col-md">
+          <div class="form-floating">
+              {{form.puestoOcupado}}
+              <label for="txtCapacitacion">puestoOcupado</label>
+          </div>
+          </div>
+        </div>
+        <br>
+          <div class="row g-3">
+            <div class="col-md">
+                <h6>Fecha de Inicio</h6>
+          <div class="input-group date" data-provide="datepicker">
+            {{form.fechaDesde}}
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+         </div> 
+        </div> 
+        <div class="col-md">
+          <h6>Fecha de fin</h6>
+    <div class="input-group date" data-provide="datepicker">
+      {{form.fechaHasta}}
+      <div class="input-group-addon">
+          <span class="glyphicon glyphicon-th"></span>
+      </div>
+   </div> 
+  </div> 
+          <div class="col-md">
+          <div class="form-control" method="POST">
+            <h6>Salario</h6>
+            {{form.salario}}
+            
+          </div>
+          </div>
+              
+            </div>
+            <br>
+            <div class="modal-footer"> 
+                <div class="bd-example">
+                    <button class="btn btn-primary" type="submit" name="submit">Agregar</button>
+            <a class="btn btn-danger" type="button" href="{% url 'experienciaLaboral' %}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

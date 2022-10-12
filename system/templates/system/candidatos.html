@@ -1,0 +1,61 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Candidatos</h1>
+<hr>
+<div class="modal-footer">
+    <a class="btn btn-success" href="{% url 'registrarCandidato' %}" role="button">Agregar Candidato</a>
+    </div>
+    <div class="table-responsive py-2">
+        <table class="table table-responsive">
+          <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cedula</th>
+                <th scope="col">Puesto que Aspira</th>
+                <th scope="col">Departamento</th>
+                <th scope="col">Salario que Aspira</th>
+                <th scope="col">Competencias</th>
+                <th scope="col">Capacitaciones</th>
+                <th scope="col">Experiencia</th>
+                <th scope="col">Recomendado</th>
+                <th scope="col" colspan="2">Acciones</th>
+              </tr>
+         </thead>
+          <tbody>
+            {% for i in candidatos %}
+            <tr>
+                <td>{{i.id}} </td>
+                <td>{{i.nombre}} </td>
+                <td>{{i.cedula}} </td>
+                <td>
+                  
+                  {{i.puestoAspira}}
+                  
+                </td>
+                <td>{{i.departamento}} </td>
+                <td>{{i.salarioAspira}} </td>
+                <td> 
+                  {% for i in i.principalesCompetencias.all %}
+                  {{i.competencia}}
+                  {% endfor %}
+                </td>
+                <td>{% for i in i.principalesCapacitaciones.all%} 
+                  {{i.capacitacion}}
+                  {% endfor %}
+                </td>
+                <td>{% for i in i.experienciaLaboral.all %} 
+                  {{i.puestoOcupado}}
+                  {% endfor %}
+                </td>
+                <td>{{i.recomendadoPor}} </td>
+                <td><a href="/editarCandidato/{{i.id}}" class="btn btn-info">Editar</a></td>
+                <td><a href="/eliminarCandidato/{{i.id}}" class="btn btn-danger">Eliminar</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>  
+{% endblock %}

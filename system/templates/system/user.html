@@ -1,0 +1,31 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>User profile</h1>
+<hr>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+    <div class="card text-bg-dark">
+        <div class="card-body">
+        <h5 class="card-title">Solicitud de empleo</h5>
+       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+       <div class="modal-footer">
+           <a href="{% url 'candidatos' %}" class="btn btn-success">Ir a Candidatos</a>
+          </div>
+       </div>
+    </div>
+    </div>
+    <div class="col">
+    <div class="card text-bg-dark">
+        <div class="card-body">
+        <h5 class="card-title">Experiencia Laboral</h5>
+       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+       <div class="modal-footer">
+           <a href="{% url 'experienciaLaboral' %}" class="btn btn-success">Ir a Experiencia Laboral</a>
+          </div>
+       </div>
+    </div>
+   </div> 
+</div>
+{% endblock %}

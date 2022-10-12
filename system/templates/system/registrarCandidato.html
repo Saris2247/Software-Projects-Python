@@ -1,0 +1,83 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Registrar Candidato</h1>
+<div class="card">
+    <div class="card-body">
+      <form method="POST">{% csrf_token %}
+          <div class="row g-3">
+          
+    <div class="col-md">
+        <div class="form-floating">
+            {{form.cedula}}
+            <label for="txtCapacitacion">Cedula</label>
+            </div>
+            </div>
+    <div class="col-md">
+        <div class="form-floating">
+            {{form.nombre}}
+                <label for="txtCapacitacion">Nombre</label>
+     </div>
+        </div>
+        
+    <div class="col-md">
+        <div class="form-floating">
+            {{form.puestoAspira}}
+                <label for="txtCapacitacion">Puesto que Aspira</label>
+            </div>
+            </div>
+
+          <br>
+
+        <div class="row g-3">
+            <div class="col-md">
+                <h6>Departamento</h6>
+          <div class="input-group date" data-provide="datepicker">
+            {{form.departamento}}
+         </div> 
+        </div>
+
+            <div class="col-md">
+                <div class="form-control" method="POST">
+                    <h6>Salario que Aspira</h6>
+                     {{form.salarioAspira}}
+                </div>
+                    </div>  
+                    <div class="col-md">
+                        <div class="form-control" method="POST">
+                            <h6>Competencias</h6>
+                             {{form.principalesCompetencias}}
+                        </div>
+                            </div> 
+                        <div class="col-md">
+                                <div class="form-control" method="POST">
+                                    <h6>Capacitaciones</h6>
+                                     {{form.principalesCapacitaciones}}
+                                </div>
+                                    </div>  
+                                    <div class="col-md">
+                                        <div class="form-control" method="POST">
+                                            <h6>Experiencia</h6>
+                                             {{form.experienciaLaboral}}
+                                        </div>
+                                            </div> 
+
+                                    <div class="col-md">
+                                        <div class="form-control" method="POST">
+                                            <h6>Recomendacion</h6>
+                                             {{form.recomendadoPor}}
+                                        </div>
+                                            </div>  
+              <br>
+              <div class="modal-footer"> 
+                  <div class="bd-example">
+                      <button class="btn btn-primary" type="submit" name="submit">Agregar</button>
+              <a class="btn btn-danger" type="button" href="{% url 'candidatos' %}">Cancelar</a>
+                  </div>
+                </div>
+        </div>
+          </form>
+      </div>
+  </div>
+{% endblock %}

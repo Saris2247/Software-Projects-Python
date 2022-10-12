@@ -1,0 +1,39 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+
+<br>
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Edicion de Idiomas</h2>
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'editarIdioma' idiomas.id %}" method="POST"> {% csrf_token %}
+          <div class="form-group">
+            <input type="text" id="txtIdioma" name="txtIdioma" value="{{idiomas.idioma}}" class="form-control" 
+            placeholder="Nombre de idioma" maxlength="20" required>        
+          </div>
+          <br>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="checkEstado" id="checkEstado" value="True">
+            <label class="form-check-label" for="checkEstado">
+              Enable
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="checkEstado" id="checkEstado" value="False">
+            <label class="form-check-label" for="checkEstado">
+              Disable
+            </label>
+          </div>
+          <br>
+          <div class="form-group">
+              <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+          </div>
+        </form>
+          </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Experiencia Laboral</h1>
+<hr>
+
+<div class="modal-footer">
+    <a class="btn btn-success" href="{% url 'registrarExperienciaLaboral' %}" role="button">Agregar Experiencia Laboral</a>
+    </div>
+<div class="table-responsive py-2">
+  <table class="table">
+    <thead class="table-dark">
+      <tr>
+          <th scope="col">#</th>
+          <th scope="col">Empresa</th>
+          <th scope="col">Puesto Ocupado</th>
+          <th scope="col">Fecha desde</th>
+          <th scope="col">Fecha Hasta</th>
+          <th scope="col">Salario</th>
+          <th scope="col" colspan="2">Acciones</th>
+        </tr>
+   </thead>
+    <tbody>
+      {% for i in experienciaLaboral %}
+      <tr>
+          <td>{{i.id}} </td>
+          <td>{{i.empresa}} </td>
+          <td>{{i.puestoOcupado}} </td>
+          <td>{{i.fechaDesde}} </td>
+          <td>{{i.fechaHasta}} </td>
+          <td>{{i.salario}} </td>
+          <td><a href="/editarExperienciaLaboral/{{i.id}}" class="btn btn-info">Editar</a></td>
+          <td><a href="/eliminarExperienciaLaboral/{{i.id}}" class="btn btn-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

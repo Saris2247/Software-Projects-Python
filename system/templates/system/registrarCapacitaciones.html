@@ -1,0 +1,28 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Gestion de Capacitaciones</h1>
+<hr>
+
+<div class="card col-md-7 offset-md-2">
+  <div class="card-header text-center bg-success text-white">
+    <h3>Registro de Capacitaciones</h3>
+  </div>
+    <div class="card-body">
+      <div class="container col-md-7 col-lg-11">
+        <form action="/registrarCapacitaciones/" method="POST">{% csrf_token %}
+           {{form.as_div}}
+            <br>
+            <div class="modal-footer"> 
+                <div class="bd-example">
+                    <button class="btn btn-primary" type="submit" name="submit">Agregar</button>
+            <a class="btn btn-danger" type="button" href="{% url 'capacitaciones' %}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock %}
+

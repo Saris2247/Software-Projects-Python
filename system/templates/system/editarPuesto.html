@@ -1,0 +1,65 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Editar Puesto</h1>
+<hr>
+<div class="card">
+    <div class="card-body">
+        <form method="POST">{% csrf_token %}
+            <div class="row g-2">
+            <div class="col-md">
+            <div class="form-floating">
+                {{form.puesto}}
+                <label for="txtCapacitacion">Puesto</label>
+            </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                  {{form.nivelRiesgo}}
+                  <label for="dropNivel">Nivel de Riesgo</label>
+                </div>
+              </div>
+            </div>
+            <br>
+              <div class="row g-3">
+                <div class="col-md">
+                    <h6>Salario Minimo</h6>
+              <div class="input-group date" data-provide="datepicker">
+                {{form.nivelMinimoSalario}}
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+             </div> 
+            </div> 
+            <div class="col-md">
+                <h6>Salario Maximo</h6>
+                <div class="input-group date" data-provide="datepicker">
+                  {{form.nivelMaximoSalario}}
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+               </div> 
+              </div>
+              <div class="col-md">
+              <div class="form-check" method="POST">
+                {{form.estado}}
+                <label class="form-check-label" for="checkEstadoComp">
+                  Enable
+                </label>
+              </div>
+              </div>
+              
+            </div>
+            <br>
+            <div class="modal-footer"> 
+                <div class="bd-example">
+                    <button class="btn btn-primary" type="submit" name="submit">Agregar</button>
+            <a class="btn btn-danger" type="button" href="{% url 'puestos' %}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

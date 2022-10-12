@@ -1,0 +1,42 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Puestos</h1>
+<hr>
+
+<h2>Listado de Puestos</h2>
+<div class="modal-footer">
+    <a class="btn btn-success" href="{% url 'registrarPuestos' %}" role="button">Agregar Puesto</a>
+    </div>
+<div class="table-responsive py-2">
+  <table class="table">
+    <thead class="table-dark">
+      <tr>
+          <th scope="col">#</th>
+          <th scope="col">Puesto</th>
+          <th scope="col">Nivel de Riesgo</th>
+          <th scope="col">Salario Min.</th>
+          <th scope="col">Salario Max.</th>
+          <th scope="col">Estado</th>
+          <th scope="col" colspan="2">Acciones</th>
+        </tr>
+   </thead>
+    <tbody>
+      {% for i in puestos %}
+      <tr>
+          <td>{{i.id}} </td>
+          <td>{{i.puesto}} </td>
+          <td>{{i.nivelRiesgo}} </td>
+          <td>{{i.nivelMinimoSalario}} </td>
+          <td>{{i.nivelMaximoSalario}} </td>
+          <td>{{i.estado}} </td>
+          <td><a href="/editarPuesto/{{i.id}}" class="btn btn-info">Editar</a></td>
+          <td><a href="/eliminarPuesto/{{i.id}}" class="btn btn-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

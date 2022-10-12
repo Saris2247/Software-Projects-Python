@@ -1,0 +1,44 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Empleados</h1>
+<hr>
+<div class="modal-footer">
+    <a class="btn btn-success" href="{% url 'registrarEmpleado' %}" role="button">Agregar Empleado</a>
+    </div>
+    <div class="table-responsive py-2">
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cedula</th>
+                <th scope="col">Fecha Ingreso</th>
+                <th scope="col">Departamento</th>
+                <th scope="col">Puesto</th>
+                <th scope="col">Salario Mensual</th>
+                <th scope="col">Estado</th>
+                <th scope="col" colspan="2">Acciones</th>
+              </tr>
+         </thead>
+          <tbody>
+            {% for i in empleados %}
+            <tr>
+                <td>{{i.id}} </td>
+                <td>{{i.nombre}} </td>
+                <td>{{i.cedula}}</td>
+                <td>{{i.fechaIngreso}} </td>
+                <td>{{i.departamento}} </td>
+                <td>{{i.puesto}} </td>
+                <td>{{i.salarioMensual}} </td>
+                <td>{{i.estado}} </td>
+                <td><a href="/editarEmpleado/{{i.id}}" class="btn btn-info">Editar</a></td>
+                <td><a href="/eliminarEmpleado/{{i.id}}" class="btn btn-danger">Eliminar</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table> 
+{% endblock %}
+

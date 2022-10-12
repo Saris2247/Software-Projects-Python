@@ -1,0 +1,118 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Dashboard</h1>
+<hr>
+<br>
+<!--cartas de cantidad -->
+<div class="row">
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white  mb-3 " id="total-orders">
+                  <div class="card-header bg-danger">
+                      <h5 class="card-title ">Solicitud de Candidatos</h5>
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title text-black">{{total_idiomas}}</h3>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="col-md">
+            <div class="card text-center text-white  mb-3" id="orders-delivered">
+                  <div class="card-header bg-success">
+                      <h5 class="card-title">Total de Empleados</h5>
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title text-black">{{total_empleados}}</h3>
+                  </div>
+            </div>
+        </div>
+    </div>
+ <!--cartas de cantidad -->
+</div>
+<br>
+
+<h2>Gestion de CRUDS</h2>
+<hr>
+ <!--Cartas de los cruds -->
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+      <div class="card text-bg-dark">
+        <div class="card-body">
+          <h5 class="card-title">Idiomas</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <div class="modal-footer">
+            <a href="{% url 'idiomas' %}" class="btn btn-success">Ir a idiomas</a>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card text-bg-dark">
+        <div class="card-body">
+          <h5 class="card-title">Competencias</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <div class="modal-footer">
+            <a href="{% url 'competencias' %}" class="btn btn-success">Ir a competencias</a>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+    <div class="card text-bg-dark">
+      <div class="card-body">
+        <h5 class="card-title">Capacitaciones</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <div class="modal-footer">
+            <a href="{% url 'capacitaciones' %}" class="btn btn-success">Ir a capacitaciones</a>
+           </div>
+      </div>
+     </div>
+    </div>  
+    
+    <div class="col">
+        <div class="card text-bg-dark">
+          <div class="card-body">
+            <h5 class="card-title">Puestos</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <div class="modal-footer">
+                <a href="{% url 'puestos' %}" class="btn btn-success">Ir a puestos</a>
+               </div>
+          </div>
+         </div>
+        </div> 
+
+    <div class="col">
+         <div class="card text-bg-dark">
+             <div class="card-body">
+             <h5 class="card-title">Experiencia Laboral</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <div class="modal-footer">
+                <a href="{% url 'experienciaLaboral' %}" class="btn btn-success">Ir a Experiencia Laboral</a>
+               </div>
+            </div>
+         </div>
+        </div> 
+        
+        <div class="col">
+            <div class="card text-bg-dark">
+                <div class="card-body">
+                <h5 class="card-title">Empleados</h5>
+               <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> 
+               <div class="modal-footer">
+                <a href="{% url 'empleados' %}" class="btn btn-success">Ir a empleados</a>
+               </div>
+               </div>
+            </div>
+           </div>  
+</div>
+   <!--Cartas de los cruds -->
+<br><br>   
+{% endblock %}

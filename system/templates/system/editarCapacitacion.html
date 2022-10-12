@@ -1,0 +1,70 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Editar Capacitaciones</h1>
+<hr>
+
+<div class="card">
+    <div class="card-body">
+        <form  method="POST">{% csrf_token %}
+            <div class="row g-2">
+            <div class="col-md">
+            <div class="form-floating">
+                {{form.capacitacion}}
+                <label for="txtCapacitacion">Capacitacion</label>
+            </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                  {{form.nivel}}
+                  <label for="dropNivel">Nivel de capacitacion</label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="input-group mb-3">
+                <div class="form-floating">
+                  {{form.descripcion}}
+                  <label for="floatingInputGroup1">Descripcion</label>
+                </div>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md">
+                    <h6>Inicio de capacitacion</h6>
+              <div class="input-group date" data-provide="datepicker">
+                {{form.fechaDesde}}
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+             </div> 
+            </div> 
+            <div class="col-md">
+                <h6>Finalizacion de capacitacion</h6>
+                <div class="input-group date" data-provide="datepicker">
+                  {{form.fechaHasta}}
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+               </div> 
+              </div>
+              <div class="col-md">
+                <div class="form-floating">
+                 {{form.institucion}}
+                  <label for="floatingInputGroup1">Institucion</label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="modal-footer"> 
+                <div class="bd-example">
+                    <button class="btn btn-primary" type="submit" name="submit">Agregar</button>
+            <a class="btn btn-danger" type="button" href="{% url 'capacitaciones' %}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>  
+{% endblock %}

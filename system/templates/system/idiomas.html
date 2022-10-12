@@ -1,0 +1,67 @@
+
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1>Idiomas</h1>
+<hr>
+<div class="row">
+  <div class="col-sm-12 xol-md-6 col-lg-4 col-xl-4">
+    <h2>Registro de Idiomas</h2>
+    <div class="card">
+      <div class="card-body">
+        <form action="/registrarIdiomas/" method="POST"> {% csrf_token %}
+          <div class="form-group">
+            <input type="text" id="txtIdioma" name="txtIdioma" class="form-control" 
+            placeholder="Nombre de idioma" maxlength="20" required>        
+          </div>
+          <br>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="checkEstado" id="checkEstado" value="True">
+            <label class="form-check-label" for="checkEstado">
+              Enable
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="checkEstado" id="checkEstado" value="False">
+            <label class="form-check-label" for="checkEstado">
+              Disable
+            </label>
+          </div>
+          <br>
+          <div class="form-group">
+              <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+          </div>
+          </div> 
+        </form>
+      </div>
+    </div>
+  
+ <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+    <h2>Listado de Idiomas</h2>
+  <div class="table-responsive py-2">
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col" colspan="2">Acciones</th>
+          </tr>
+     </thead>
+      <tbody>
+        {% for i in idiomas %}
+        <tr>
+            <td>{{i.id}} </td>
+            <td>{{i.idioma}} </td>
+            <td>{{i.estado}} </td>
+            <td><a href="/edicionIdioma/{{i.id}}" class="btn btn-info">Editar</a></td>
+            <td><a href="/eliminarIdioma/{{i.id}}" class="btn btn-danger">Eliminar</a></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+ </div>
+</div>
+{% endblock %}

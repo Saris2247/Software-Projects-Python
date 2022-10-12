@@ -1,0 +1,72 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+<h1> Registrar Empleados</h1>
+<div class="card">
+    <div class="card-body">
+      <form method="POST">{% csrf_token %}
+          <div class="row g-2">
+          <div class="col-md">
+          <div class="form-floating">
+              {{form.nombre}}
+              <label for="txtCapacitacion">Nombre</label>
+          </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating">
+                {{form.cedula}}
+                <label for="txtCapacitacion">Cedula</label>
+            </div>
+            </div>
+          <br>
+            <div class="row g-3">
+              <div class="col-md">
+                  <h6>Fecha de Ingreso</h6>
+            <div class="input-group date" data-provide="datepicker">
+              {{form.fechaIngreso}}
+              <div class="input-group-addon">
+                  <span class="glyphicon glyphicon-th"></span>
+              </div>
+           </div> 
+          </div> 
+          <div class="col-md">
+            <h6>Departamento</h6>
+      <div class="input-group date" data-provide="datepicker">
+        {{form.departamento}}
+        <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+        </div>
+     </div> 
+    </div> 
+            <div class="col-md">
+            <div class="form-control" method="POST">
+              <h6>Salario Mensual</h6>
+              {{form.salarioMensual}}
+              
+            </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                  {{form.puesto}}
+                  <label for="txtCapacitacion">Puesto</label>
+              </div>
+              </div>
+
+            <div class="form-check">
+                {{form.estado}}
+                <label class="form-check-label" for="checkEstado">
+                  Enable
+                </label>
+              </div>
+              <br>
+              <div class="modal-footer"> 
+                  <div class="bd-example">
+                      <button class="btn btn-primary" type="submit" name="submit">Agregar</button>
+              <a class="btn btn-danger" type="button" href="{% url 'empleados' %}">Cancelar</a>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+{% endblock %}
