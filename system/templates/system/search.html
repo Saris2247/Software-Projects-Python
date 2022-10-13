@@ -1,0 +1,25 @@
+{% extends 'system/main.html' %}
+
+{% block content %}
+<br>
+   <center>
+    {% if searched %}
+        <h1>You searched For...{{searched}}</h1>
+        <br>
+
+        {% for candidatos in candidatos %}
+        Candidato 
+            <a href="{% url 'candidatos' %}">{{ candidatos }} - {{ candidatos.cedula }} - {{candidatos.puestoAspira}} - {{candidatos.departamento}} - {{candidatos.salarioAspira}}</a><br>
+        {% endfor %}
+        <br>
+        {% for empleados in empleados %}
+        Empleado
+            <a href="{% url 'empleados' %}">{{ empleados }} - {{empleados.cedula}} - {{empleados.puesto}} - {{empleados.estado}} </a><br>
+        {% endfor %}
+
+        {% else %}
+            <h1>Hey! You Forgot To Search For A System...</h1>
+    {% endif %}
+   </center>
+
+{% endblock %}

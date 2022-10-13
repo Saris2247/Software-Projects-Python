@@ -1,6 +1,8 @@
+from datetime import datetime
 from multiprocessing import context
+from sqlite3 import IntegrityError
 from tokenize import group
-from urllib import request
+from urllib import request, response
 from django.shortcuts import render, redirect, get_object_or_404
 from http.client import HTTPResponse
 from django.http import HttpResponseRedirect
@@ -15,8 +17,48 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.http import HttpResponse 
+import csv
+import datetime
+from django.db import IntegrityError
 
 from system.models import* 
+
+#Generar excel 
+def export_csv(request):
+    response = HttpResponse(content_type='text/cvs')
+    response['Content-Disposition'] = 'attachment; filename=Empledos.csv'
+
+    #crear un csv writer
+    writer = csv.writer(response)
+
+    #Designar el modelo 
+    empleados = Empleados.objects.all()
+
+    #Add columnas para los encabezados del csv
+    writer.writerow(['Nombre', 'Cedula', 'Fecha de Ingreso', 'Departamento', 'Puesto', 'Salario Mensual', 'Estado'])
+
+    #Loop thu and output
+    for empleado in empleados:
+        writer.writerow([empleado.nombre, empleado.cedula, empleado.fechaIngreso, empleado.departamento, empleado.puesto, empleado.salarioMensual, empleado.estado])
+
+    return response
+
+#De candidato a empleado 
+def CandidatoSeleccion(request, pk):
+    candidato = Candidatos.objects.filter(id=pk)
+
+    try: 
+        for i in candidato: 
+            Empleados.objects.create(nombre=i.nombre, cedula=i.cedula, fechaIngreso=datetime.datetime.now(), 
+            departamento=i.departamento, puesto=i.puestoAspira, salarioMensual=i.salarioAspira, estado=True)
+
+        Candidatos.objects.filter(id=pk).delete()
+    except IntegrityError:
+        messages.error(request, "El candidato ha sido seleccionado como empleado")
+        return redirect('candidatos')
+        
+    return redirect('empleados')
+
 
 # Create your views here.
 @login_required(login_url='loginPage')
@@ -26,7 +68,9 @@ def home(request):
     total_idiomas = idiomas.count()
     empleados = Empleados.objects.all()
     total_empleados = empleados.count()
-    context= {'total_idiomas': total_idiomas, 'total_empleados': total_empleados}
+    candidatos = Candidatos.objects.all()
+    total_candidatos = candidatos.count()
+    context= {'total_idiomas': total_idiomas, 'total_empleados': total_empleados, 'total_candidatos': total_candidatos}
     return render(request, 'system/dashboard.html', context)
 
 @login_required(login_url='loginPage')
@@ -42,7 +86,7 @@ def idiomas(request):
     return render(request, 'system/idiomas.html', {'idiomas':idiomas})
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin', 'candidato'])
 def capacitaciones(request):
     capacitaciones = Capacitaciones.objects.all()
     return render(request, 'system/capacitaciones.html', {'capacitaciones': capacitaciones})
@@ -54,7 +98,7 @@ def puestos(request):
     return render(request, 'system/puestos.html', {'puestos': puestos})    
 
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin', 'candidato'])
 def experienciaLaboral(request):
     experienciaLaboral = ExperienciaLaboral.objects.all()
     return render(request, 'system/experienciaLaboral.html', {'experienciaLaboral': experienciaLaboral})
@@ -123,7 +167,7 @@ def editarIdioma(request, id):
     idiomas.save()
     return redirect('/idiomas') 
 
-#Eliminar Capacitacion
+#Eliminar Competencia
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['admin'])
 def eliminarCompetencia(request, id):
@@ -132,7 +176,7 @@ def eliminarCompetencia(request, id):
 
     return redirect('/competencias')
 
-#Edicion Capacitacion
+#Edicion Competencia
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['admin'])
 def edicionCompetencia(request, id):
@@ -156,11 +200,12 @@ def editarCompetencia(request, id):
 
 #Registrar Capacitaciones
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin', 'candidato'])
 def registrarCapacitaciones(request):
     form = CapacitacionForm()
     if request.method == "POST":
         form = CapacitacionForm(request.POST or None)
+        form.instance.createdBy=request.user
         if form.is_valid():
                 form.save()
                 return redirect('/capacitaciones')
@@ -172,7 +217,7 @@ def registrarCapacitaciones(request):
 
 #Eliminar Capacitacion 
 @login_required(login_url='loginPage') 
-@allowed_users(allowed_roles=['admin'])    
+@allowed_users(allowed_roles=['admin', 'candidato'])    
 def eliminarCapacitacion(request, id):
     capacitaciones = Capacitaciones.objects.get(id=id)
     capacitaciones.delete()
@@ -181,7 +226,7 @@ def eliminarCapacitacion(request, id):
 
 #Editar Capacitacion
 @login_required(login_url='loginPage')
-@allowed_users(allowed_roles=['admin'])     
+@allowed_users(allowed_roles=['admin', 'candidato'])     
 def editarCapacitacion(request, id):
     id = id
     try:
@@ -205,11 +250,11 @@ def registrarPuestos(request):
         if form.is_valid():
                 form.save()
                 return redirect('/puestos')
-        else:
-            return HTTPResponse("""Something went wrong. Please reload the webpage by clicking 
-                                <a href="{{url: 'puestos'}}"> Reload</a>""" )
-    else:
-        return render(request, 'system/registrarPuestos.html', {'form':form}) 
+        #else:
+            #return HTTPResponse("""Something went wrong. Please reload the webpage by clicking 
+                                #<a href="{{url: 'puestos'}}"> Reload</a>""" )
+    
+    return render(request, 'system/registrarPuestos.html', {'form':form}) 
 
 #Eliminar Puesto
 @login_required(login_url='loginPage') 
@@ -238,23 +283,24 @@ def editarPuesto(request, id):
 
 #Registrar Experiencia Laboral
 @login_required(login_url='loginPage')  
-@allowed_users(allowed_roles=['admin'])   
+@allowed_users(allowed_roles=['admin', 'candidato'])   
 def registrarExperienciaLaboral(request):
     form = ExperienciaLaboralForm()
     if request.method == "POST":
         form = ExperienciaLaboralForm(request.POST or None)
+        form.instance.createdBy=request.user
         if form.is_valid():
                 form.save()
                 return redirect('/experienciaLaboral')
-        else:
-            return HTTPResponse("""Something went wrong. Please reload the webpage by clicking 
-                                <a href="{{url: 'experienciaLaboral'}}"> Reload</a>""" )
-    else:
-        return render(request, 'system/registrarExperienciaLaboral.html', {'form':form}) 
+        #else:
+            #return HTTPResponse("""Something went wrong. Please reload the webpage by clicking 
+                               #<a href="{{url: 'experienciaLaboral'}}"> Reload</a>""" )
+    
+    return render(request, 'system/registrarExperienciaLaboral.html', {'form':form}) 
 
 #Eliminar Experiencia Laboral
 @login_required(login_url='loginPage')  
-@allowed_users(allowed_roles=['admin'])   
+@allowed_users(allowed_roles=['admin', 'candidato'])   
 def eliminarExperienciaLaboral(request, id):
      experienciaLaboral= ExperienciaLaboral.objects.get(id=id)
      experienciaLaboral.delete()
@@ -263,7 +309,7 @@ def eliminarExperienciaLaboral(request, id):
 
 #Editar Experiencia Laboral
 @login_required(login_url='loginPage') 
-@allowed_users(allowed_roles=['admin'])    
+@allowed_users(allowed_roles=['admin', 'candidato'])    
 def editarExperienciaLaboral(request, id):
     id = id
     try:
@@ -287,11 +333,11 @@ def registrarEmpleado(request):
         if form.is_valid():
                 form.save()
                 return redirect('/empleados')
-        else:
-            return HttpResponse("""Something went wrong. Please reload the webpage by clicking 
-                                <a href="{{url: 'empleados'}}"> Reload</a>""" )
-    else:
-        return render(request, 'system/registrarEmpleado.html', {'form':form}) 
+        #else:
+            #return HttpResponse("""Something went wrong. Please reload the webpage by clicking 
+                               # <a href="{{url: 'empleados'}}"> Reload</a>""" )
+    #else:
+    return render(request, 'system/registrarEmpleado.html', {'form':form}) 
 
 #Eliminar Empleado
 @login_required(login_url='loginPage')   
@@ -305,7 +351,6 @@ def eliminarEmpleado(request, id):
 #Editar Empleado
 @login_required(login_url='loginPage') 
 @allowed_users(allowed_roles=['admin'])    
-@allowed_users(allowed_roles=['candidato']) 
 def editarEmpleado(request, id):
     id = id
     try:
@@ -326,14 +371,15 @@ def registrarCandidato(request):
     form = CandidatoForm()
     if request.method == "POST":
         form = CandidatoForm(request.POST or None)
+        form.instance.createdBy=request.user
         if form.is_valid():
                 form.save()
                 return redirect('/candidatos')
-        else:
-            return HttpResponse("""Something went wrong. Please reload the webpage by clicking 
-                                <a href="{{url 'candidatos'}}"> Reload</a>""" )
-    else:
-        return render(request, 'system/registrarCandidato.html', {'form':form}) 
+        #else:
+            #return HttpResponse("""Something went wrong. Please reload the webpage by clicking 
+                                #<a href="{{url 'candidatos'}}"> Reload</a>""" )
+    
+    return render(request, 'system/registrarCandidato.html', {'form':form}) 
 
 #Eliminar Candidato
 @login_required(login_url='loginPage')     
@@ -346,8 +392,7 @@ def eliminarCandidato(request, id):
 
 #Editar Candidato
 @login_required(login_url='loginPage')   
-@allowed_users(allowed_roles=['admin'])  
-@allowed_users(allowed_roles=['candidato']) 
+@allowed_users(allowed_roles=['admin', 'candidato'])  
 def editarCandidato(request, id):
     id = id
     try:
@@ -411,10 +456,21 @@ def logoutUser(request):
 @login_required(login_url='loginPage')
 @allowed_users(allowed_roles=['candidato']) 
 def userPage(request):
-    
-
-    context = {}
+    candidatos = Candidatos.objects.filter(createdBy=request.user)    
+    experienciaLaboral = ExperienciaLaboral.objects.filter(createdBy=request.user)
+    capacitaciones = Capacitaciones.objects.filter(createdBy=request.user)
+    context = {'candidatos': candidatos, 'experienciaLaboral':experienciaLaboral, 'capacitaciones':capacitaciones}
     return render(request, 'system/user.html', context) 
+
+def search(request): 
+    if request.method == "POST":
+        searched = request.POST['searched']
+        candidatos = Candidatos.objects.filter(nombre__contains=searched)
+        empleados = Empleados.objects.filter(nombre__contains=searched)
+        
+        return render(request, 'system/search.html', {'searched':searched, 'candidatos':candidatos, 'empleados':empleados})
+    else:
+        return render
 
 
 

@@ -4,53 +4,14 @@
 <br>
 <h1>Registro de Puestos</h1>
 <hr>
-<div class="card">
+<div class="card col-md-7 offset-md-2">
+  <div class="card-header text-center bg-success text-white">
+    <h3>Registro de Puestos</h3>
+  </div>
     <div class="card-body">
-        <form method="POST">{% csrf_token %}
-            <div class="row g-2">
-            <div class="col-md">
-            <div class="form-floating">
-                {{form.puesto}}
-                <label for="txtCapacitacion">Puesto</label>
-            </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                  {{form.nivelRiesgo}}
-                  <label for="dropNivel">Nivel de Riesgo</label>
-                </div>
-              </div>
-            </div>
-            <br>
-              <div class="row g-3">
-                <div class="col-md">
-                    <h6>Salario Minimo</h6>
-              <div class="input-group date" data-provide="datepicker">
-                {{form.nivelMinimoSalario}}
-                <div class="input-group-addon">
-                    <span class="glyphicon glyphicon-th"></span>
-                </div>
-             </div> 
-            </div> 
-            <div class="col-md">
-                <h6>Salario Maximo</h6>
-                <div class="input-group date" data-provide="datepicker">
-                  {{form.nivelMaximoSalario}}
-                  <div class="input-group-addon">
-                      <span class="glyphicon glyphicon-th"></span>
-                  </div>
-               </div> 
-              </div>
-              <div class="col-md">
-              <div class="form-check" method="POST">
-                {{form.estado}}
-                <label class="form-check-label" for="checkEstadoComp">
-                  Enable
-                </label>
-              </div>
-              </div>
-              
-            </div>
+      <div class="container col-md-7 col-lg-11">
+        <form action="/registrarPuestos/" method="POST">{% csrf_token %}
+           {{form.as_div}}
             <br>
             <div class="modal-footer"> 
                 <div class="bd-example">
@@ -59,6 +20,7 @@
                 </div>
             </div>
         </form>
+      </div>
     </div>
 </div>
 

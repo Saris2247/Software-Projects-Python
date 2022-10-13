@@ -52,12 +52,14 @@
                 </li>
                 {% if request.user.is_staff %}
                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">Something else here</a></li>
+                <li><a class="dropdown-item" href="{% url 'export_csv' %}">Empleado CSV File</a></li>
                 {% endif %}
               </ul>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <form class="d-flex" role="search" method="POST" action="{% url 'search_system' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="text"  name="searched" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>

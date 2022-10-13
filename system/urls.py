@@ -39,7 +39,7 @@ urlpatterns = [
     path('eliminarEmpleado/<id>', views.eliminarEmpleado),
     path('editarEmpleado/<id>', views.editarEmpleado, name='editarEmpleado'),
 
-    path('registrarCandidato', views.registrarCandidato, name='registrarCandidato'), 
+    path('registrarCandidato/', views.registrarCandidato, name='registrarCandidato'), 
     path('eliminarCandidato/<id>', views.eliminarCandidato), 
     path('editarCandidato/<id>', views.editarCandidato, name='editarCandidato'),
 
@@ -47,5 +47,8 @@ urlpatterns = [
     path('login/', views.loginPage, name='loginPage'),
     path('logout/', views.logoutUser, name='logoutUser'),
 
-    path('user/', views.userPage, name='userPage' )
+    path('user/', views.userPage, name='userPage' ), 
+    path('export_csv', views.export_csv, name='export_csv'), 
+    path('CandidatoSeleccion/<str:pk>', views.CandidatoSeleccion, name="CandidatoSeleccion"),
+    path('search', views.search, name='search_system' )
 ]

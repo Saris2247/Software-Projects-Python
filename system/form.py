@@ -16,7 +16,7 @@ class CapacitacionForm(forms.ModelForm):
             'nivel': forms.Select (attrs={'class':'form-select'}),
             'descripcion': forms.TextInput (attrs={'class':'form-control'}),
             'fechaDesde': forms.DateInput (attrs={'class':'form-control', 'type': 'date'}),
-            'fechaHasta': forms.DateInput (attrs={'class':'form-control'}),
+            'fechaHasta': forms.DateInput (attrs={'class':'form-control', 'type': 'date'}),
             'institucion': forms.TextInput (attrs={'class':'form-control'}),
         }
     
@@ -46,7 +46,8 @@ class CandidatoForm(forms.ModelForm):
             'principalesCompetencias': forms.SelectMultiple (attrs={'class':'form-select'}), 
             'principalesCapacitaciones': forms.SelectMultiple (attrs={'class':'form-select'}), 
             'experienciaLaboral': forms.SelectMultiple (attrs={'class':'form-select'}),
-            'recomendadoPor': forms.TextInput (attrs={'class':'form-control'})
+            'recomendadoPor': forms.TextInput (attrs={'class':'form-control'}),
+            'idioma': forms.CheckboxSelectMultiple(attrs={'class':'form-checkbox'})
         }
 
 class EmpleadoForm(forms.ModelForm):
@@ -55,8 +56,8 @@ class EmpleadoForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'nombre': forms.TextInput (attrs={'class':'form-control'}),
-            'cedula': forms.NumberInput (attrs={'class':'form-control'}),
-            'fechaIngreso': forms.DateInput (attrs={'class':'form-control'}),
+            'cedula': forms.TextInput (attrs={'class':'form-control'}),
+            'fechaIngreso': forms.DateInput (attrs={'class':'form-control', 'type':'date'}),
             'departamento': forms.TextInput (attrs={'class':'form-control'}),
             'puesto': forms.Select (attrs={'class':'form-select'}),
             'salarioMensual': forms.NumberInput (attrs={'class':'form-control'}),
@@ -70,8 +71,8 @@ class ExperienciaLaboralForm(forms.ModelForm):
         widgets = {
             'empresa': forms.TextInput (attrs={'class':'form-control'}),
             'puestoOcupado': forms.TextInput (attrs={'class':'form-control'}),
-            'fechaDesde': forms.DateInput (attrs={'class':'form-control datepicker'}),
-            'fechaHasta': forms.DateInput (attrs={'class':'form-control'}),
+            'fechaDesde': forms.DateInput (attrs={'class':'form-control', 'type':'date'}),
+            'fechaHasta': forms.DateInput (attrs={'class':'form-control', 'type':'date'}),
             'salario': forms.NumberInput (attrs={'class':'form-control'})
         }
 

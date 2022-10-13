@@ -11,7 +11,7 @@
 <a class="btn btn-success" href="{% url 'registrarCapacitaciones' %}" role="button">Agregar Capacitacion</a>
 </div>
 <div class="table-responsive py-2">
-    <table class="table">
+    <table class="table" id="table_id">
         <thead class="table-dark">
             <tr>
                 <th scope="col">#</th>
@@ -34,9 +34,11 @@
                 <td>{{i.fechaDesde}} </td>
                 <td>{{i.fechaHasta}} </td>
                 <td>{{i.institucion}} </td>
+                {% if request.user.is_staff %}
                 <td><a href="/editarCapacitacion/{{i.id}}" class="btn btn-info">Editar</a></td>
                 <td><a href="/eliminarCapacitacion/{{i.id}}" class="btn btn-danger">Eliminar</a></td>
-              </tr>
+                {% endif %}
+            </tr>
               {% endfor %}
           </tbody>
     </table>

@@ -4,52 +4,14 @@
 <br>
 <h1>Registros Experiencia Laboral</h1>
 <hr>
-<div class="card">
-  <div class="card-body">
-    <form method="POST">{% csrf_token %}
-        <div class="row g-2">
-        <div class="col-md">
-        <div class="form-floating">
-            {{form.empresa}}
-            <label for="txtCapacitacion">Empresa</label>
-        </div>
-        </div>
-        <div class="col-md">
-          <div class="form-floating">
-              {{form.puestoOcupado}}
-              <label for="txtCapacitacion">puestoOcupado</label>
-          </div>
-          </div>
-        </div>
-        <br>
-          <div class="row g-3">
-            <div class="col-md">
-                <h6>Fecha de Inicio</h6>
-          <div class="input-group date" data-provide="datepicker">
-            {{form.fechaDesde}}
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-            </div>
-         </div> 
-        </div> 
-        <div class="col-md">
-          <h6>Fecha de fin</h6>
-    <div class="input-group date" data-provide="datepicker">
-      {{form.fechaHasta}}
-      <div class="input-group-addon">
-          <span class="glyphicon glyphicon-th"></span>
-      </div>
-   </div> 
-  </div> 
-          <div class="col-md">
-          <div class="form-control" method="POST">
-            <h6>Salario</h6>
-            {{form.salario}}
-            
-          </div>
-          </div>
-              
-            </div>
+<div class="card col-md-7 offset-md-2">
+  <div class="card-header text-center bg-success text-white">
+    <h3>Registro de Experiencia</h3>
+  </div>
+    <div class="card-body">
+      <div class="container col-md-7 col-lg-11">
+        <form action="/registrarExperienciaLaboral/" method="POST">{% csrf_token %}
+           {{form.as_div}}
             <br>
             <div class="modal-footer"> 
                 <div class="bd-example">
@@ -58,6 +20,7 @@
                 </div>
             </div>
         </form>
+      </div>
     </div>
 </div>
 {% endblock %}
